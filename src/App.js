@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Map from './Map';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import escapeRegExp from 'escape-string-regexp';
 import './App.css';
 
 class App extends Component {
@@ -17,6 +18,12 @@ class App extends Component {
       {title:'Parfumerie Galimard', location:{lat:43.6365073, lng:6.9459211}}
     ]
   };
+
+  filterLocations(query) {
+    const match = new RegExp(escapeRegExp(query), 'i')
+    showingLocations = this.state.locations.filter((location) => (match.test(location.title)));
+    return showingLocations
+  }
 
   render() {
     return (
