@@ -2,26 +2,23 @@
 
 import React, {Component} from 'react';
 
-class Map extends React.Component {
+class Map extends Component {
 
-// Asynchronous mechnism inspired from https://stackoverflow.com/questions/48493960/using-google-map-in-react-component/51437173#51437173
-  getGoogleMaps() {
-    // If we haven't already defined the promise, define it
+// Asynchronous mechanism inspired from https://stackoverflow.com/questions/48493960/using-google-map-in-react-component/51437173#51437173
+  fetchGoogleAPI() {
+    // Creates a promise to englobe the request if it does not exist yet
     if (!this.googleMapsPromise) {
-      this.googleMapsPromise = new Promise((resolve) => {
+      this.googleMapsPromise = new Promise(resolve => {
         // Add a global handler for when the API finishes loading
         window.resolveGoogleMapsPromise = () => {
-          // Resolve the promise
           resolve(google);
-
           // Tidy up
           delete window.resolveGoogleMapsPromise;
         };
 
         // Load the Google Maps API
-        const script = document.createElement("script");
-        const API = 'AIzaSyAiq4AVRW5PmATS3klmEw5wL9GSLkfWKwk';
-        script.src = `https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=${API}&callback=resolveGoogleMapsPromise`;
+        const script = document.createElement('script');
+        script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyAiq4AVRW5PmATS3klmEw5wL9GSLkfWKwk&callback=resolveGoogleMapsPromise';
         script.async = true;
         document.body.appendChild(script);
       });
@@ -32,8 +29,7 @@ class Map extends React.Component {
   }
 
   componentWillMount() {
-    // Start Google Maps API loading since we know we'll soon need it
-    this.getGoogleMaps();
+    this.fetchGoogleAPI();
   }
 
   componentDidMount() {
@@ -163,29 +159,39 @@ class Map extends React.Component {
           ]
       }
   ];
-    // Once the Google Maps API has finished loading, initialize the map
-    this.getGoogleMaps().then((google) => {
+    // Initializing the map once the API has finished loading
+    this.fetchGoogleAPI().then(google => {
       const grasse = this.props.locations[0].location;
       const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 14,
         center: grasse,
         styles: styles
       });
+      //Creating a bounds element
+      let bounds = new google.maps.LatLngBounds();
+      //Adapting the Marker color to the style
+      let customMarkerIcon = new google.maps.MarkerImage(
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|D3D3D3|40|_|%E2%80%A2',
+          new google.maps.Size(21, 34),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(10, 34),
+          new google.maps.Size(21,34));
+      //Placing all of the markers on the map
       this.props.locations.forEach(location => {
         const marker = new google.maps.Marker({
           position: location.location,
-          map: map
+          map: map,
+          icon:customMarkerIcon
         });
-      })
+        bounds.extend(marker.position);
+      });
+      map.fitBounds(bounds);
     });
   }
 
   render() {
     return (
-      <div>
-        <h1>Contact</h1>
         <div id="map" className="map"></div>
-      </div>
     )
   }
 }
