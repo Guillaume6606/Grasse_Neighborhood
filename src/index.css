@@ -1,5 +1,122 @@
-body {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
+  height: 100%;
   font-family: sans-serif;
+  width: 100%;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  width:100%;
+  height:100%;
+}
+.header {
+  background-color: #55554A;
+  box-shadow: 0 0 3px 1px black;
+  font-size: 12px;
+  height:10%;
+  width:100%;
+  z-index: 1000;
+}
+.header h1 {
+  color:white;
+  font-weight: normal;
+  letter-spacing: 2px;
+  text-align: center;
+  width:80%;
+}
+.header i {
+  color:white;
+  font-size: 30px;
+  padding: 15px;
+  width:10%;
+}
+.location-information {
+  background-color: #EED7D7;
+  position: absolute;
+  overflow-y: scroll;
+  bottom:0;
+  padding:1%;
+  height:150px;
+  width:100%;
+  transform:translateY(130px);
+  transition: ease-in 0.2s;
+  z-index: 1000;
+}
+.location-information button {
+  background-color: #98A5AF;
+  border: solid grey 1px;
+  border-radius: 5px;
+  width: 70%;
+  margin-left: 15%;
+}
+#location-information-content {
+  margin: 20px;
+}
+.slide-in {
+  transform:translateY(10px);
+  transition: ease-in 0.2s;
+}
+.hide{
+  transform:translateY(160px);
+  display:none;
+  transition: ease-in 0.2s;
+}
+.map {
+  margin-top:0;
+  height:90%;
+  width:100%;
+}
+.sidebar {
+  box-shadow: 0 0 3px 1px black;
+  background: #98A5AF;
+  overflow-y: scroll;
+  position:absolute;
+  top:10%;
+  height: 30%;
+  width: 100%;
+  z-index: 900;
+  transition: ease-out 0.2s;
+}
+.sidebar ul {
+  margin-top:0;
+  padding:0;
+}
+.sidebar input {
+  margin:2% 5% 0 3%;
+  padding:1%;
+  text-align: center;
+  width: 90%;
+}
+.hide-sidebar{
+  transform: translateY(-300px);
+  transition: ease-in 0.2s;
+}
+.sidebar-location {
+  list-style: none;
+  border-bottom: solid #6F6160;
+  margin:5px 0 5px 0;
+  text-align: center;
+}
+.reset-button {
+  color:white;
+  width:100%;
+  background-color: #6F6160;
+  border: solid grey 1px;
+  border-radius: 5px;
+}
+
+@media screen and (min-width:600px){
+  .hide-sidebar{
+    transform: translateX(-300px);
+    transition: ease-in 0.2s;
+  }
+  .sidebar {
+    width:20%;
+    height:90%;
+    transition: ease-in 0.2s;
+  }
 }

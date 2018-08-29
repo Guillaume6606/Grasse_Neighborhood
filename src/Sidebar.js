@@ -13,7 +13,7 @@ class Sidebar extends Component {
           </li>
         ))}
         </ul>
-        <button onClick={()=>(this.props.resetLocations())}>Reset Search</button>
+        <button className='reset-button'onClick={()=>(this.props.resetLocations())}>Reset Search</button>
       </nav>
     )
   }
