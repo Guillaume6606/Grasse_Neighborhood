@@ -9,6 +9,7 @@ import './App.css';
 
 class App extends Component {
   state = {
+    // Hard-coded locations database
     locations: [
       {title:'Grasse', location:{lat:43.6579685, lng:6.923471}},
       {title:'Cannes', location: {lat:43.5370022, lng:6.9746801}},
@@ -19,6 +20,7 @@ class App extends Component {
       {title:'Robertet', location:{lat:43.6486986, lng:6.9303879}},
       {title:'Parfumerie Fragonard', location:{lat:43.6462532, lng:6.9374693}}
     ],
+    //The list of locations that is modified when searching
     showingLocations:[
       {title:'Grasse', location:{lat:43.6579685, lng:6.923471}},
       {title:'Cannes', location: {lat:43.5370022, lng:6.9746801}},
@@ -30,21 +32,27 @@ class App extends Component {
       {title:'Parfumerie Fragonard', location:{lat:43.6462532, lng:6.9374693}}
     ],
     focusedLocation:'',
+    // Contains the focused location data, i.e the extract from the Wikipedia API
     focusedLocationData:''
   };
 
+  // The Asynchronous function that retrieves data from the Wikipedia API when
+  // called. Takes a location, parses its title and incorporates it in an url query
   fetchAPIinfo = location => {
+    // Sets appThis to the App value to prevent issues with this when calling the function
     let appThis = this;
     let url =
       "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=" +
       location.title;
     url = url.replace(/ /g, "%20");
 
+    // Function from the fetch-jsonp package that fetches the url
     fetchJsonp(url)
       .then(response => (response.json()))
       .then(data => {
         let info = data.query.pages[Object.keys(data.query.pages)[0]].extract;
 
+    // Passing the retrieved data to the state
         appThis.setState({
           focusedLocationData: info
         });
@@ -56,16 +64,21 @@ class App extends Component {
       });
   };
 
+// Function to filter the list and the markers when searching. Changes the array
+// of locations that is passed to the children.
   filterLocations= (query) => {
     const match = new RegExp(escapeRegExp(query), 'i')
     let showingLocations = this.state.locations.filter((location) => (match.test(location.title)));
     this.setState({showingLocations:showingLocations});
   }
 
+// Resets the displayed locations to the default ones
   resetLocations = () => {
     this.setState({showingLocations:this.state.locations});
   }
 
+// Displays the info regarding a location and hides the markers of the others
+// when clicked
   clickLocation= (position) => {
     let showingLocations = this.state.locations.filter((location) => ((location.location.lat === position.lat)&&(location.location.lng === position.lng)));
     this.setState({showingLocations:showingLocations});
@@ -75,15 +88,20 @@ class App extends Component {
     this.fetchAPIinfo(showingLocations[0]);
   }
 
+//Loads the info about the clicked location and passes it to the state.
+// Also shows a popup at the bottom of the screen to click to access the info
   showLocationInfo = (location) => {
     document.getElementById('location-information').classList.remove('hide');
     this.setState({focusedLocation:location});
     this.fetchAPIinfo(location);
   }
+
+// Hides the information  popup
   hideLocationInfo = () => {
     document.getElementById('location-information').classList.add('hide');
     this.setState({focusedLocation:''});
   }
+//Toggles the information  popup and fetches data only if required
   toggleLocationInfo = (location) => {
     document.getElementById('location-information').classList.toggle('hide');
     if(this.state.focusedLocation === '') {

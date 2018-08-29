@@ -1,8 +1,6 @@
-import React, {Component} from 'react'
+import React from 'react'
 
-class Sidebar extends Component {
-
-  render() {
+const Sidebar = (() => {
     return (
       <nav id='sidebar' className="sidebar hide-sidebar">
         <input type="text" placeholder="Filter Locations" onChange={event => this.props.filterLocations(event.target.value)}/>
@@ -22,7 +20,6 @@ class Sidebar extends Component {
         <button aria-label="button to reset the search of locations" className='reset-button'onClick={()=>(this.props.resetLocations())}>Reset Search</button>
       </nav>
     )
-  }
-}
+})
 
 export default Sidebar
