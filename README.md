@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * Boot instructions
 * Listing of the files
+* Credits
+* Remarks
 
 ## Boot instructions
 
@@ -33,3 +35,13 @@ To get start the app:
     ├── index.css # All of the styling of the page
     └── index.js # Used for DOM rendering only.
 ```
+## Credits
+
+Big thanks to:
+- The Udacity team for its awesome course contents
+- The Wikipedia API
+- SnazzyMaps for their custom google maps styles
+
+## Remarks
+
+There seems to be an issue with my API key, thus the map will display in developper mode
