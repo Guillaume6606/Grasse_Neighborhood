@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class LocationInformation extends Component {
-  render(){
+const LocationInformation = ((props) => {
     return(
       <aside id="location-information" className="location-information hide">
         <button id ='show-info'
@@ -16,10 +15,9 @@ class LocationInformation extends Component {
           >
             Show/Hide More About Location
         </button>
-        <article aria-label='information regarding the selected location' id="location-information-content">{this.props.info}</article>
+        <article aria-label='information regarding the selected location' id="location-information-content">{props.info}</article>
       </aside>
     )
-  }
-}
+})
 
 export default LocationInformation
