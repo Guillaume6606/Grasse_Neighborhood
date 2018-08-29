@@ -30,19 +30,27 @@ class App extends Component {
   };
 
   filterLocations= (query) => {
-    console.log(query);
     const match = new RegExp(escapeRegExp(query), 'i')
     let showingLocations = this.state.locations.filter((location) => (match.test(location.title)));
-    console.log(showingLocations);
-    this.setState({showingLocations});
+    this.setState({showingLocations:showingLocations});
+  }
+
+  resetLocations = () => {
+    this.setState({showingLocations:this.state.locations});
+  }
+
+  clickLocation= (title, position, location) => {
+    let showingLocations = this.state.locations.filter((location) => ((location.location.lat === position.lat)&&(location.location.lng === position.lng)));
+    this.setState({showingLocations:showingLocations});
+    document.getElementById('sidebar').classList.toggle('hide-sidebar');
   }
 
   render() {
     return (
       <div className="container">
         <Header/>
-        <Sidebar locations={this.state.showingLocations} filterLocations={this.filterLocations}/>
-        <Map locations={this.state.showingLocations}/>
+        <Sidebar locations={this.state.showingLocations} clickLocation={this.clickLocation} filterLocations={this.filterLocations} resetLocations={this.resetLocations}/>
+        <Map ref='map' resetLocations={this.resetLocations} locations={this.state.showingLocations}/>
       </div>
     );
   }
