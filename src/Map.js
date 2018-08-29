@@ -1,6 +1,7 @@
 /* global google */
 
 import React, {Component} from 'react';
+import mapstyles from './mapstyles.json'
 
 class Map extends Component {
   //Creates a few object variables to avoid scope issues
@@ -9,6 +10,7 @@ class Map extends Component {
     this.markers=[];
     this.windows={};
     this.map={};
+    this.window;
   }
 
 // Asynchronous mechanism inspired from https://stackoverflow.com/questions/48493960/using-google-map-in-react-component/51437173#51437173
@@ -40,131 +42,7 @@ class Map extends Component {
 
   componentDidMount() {
     //Styles from https://snazzymaps.com/style/15/subtle-grayscale
-    let styles = [
-      {
-          "featureType": "administrative",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "saturation": "-100"
-              }
-          ]
-      },
-      {
-          "featureType": "administrative.province",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "visibility": "off"
-              }
-          ]
-      },
-      {
-          "featureType": "landscape",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "saturation": -100
-              },
-              {
-                  "lightness": 65
-              },
-              {
-                  "visibility": "on"
-              }
-          ]
-      },
-      {
-          "featureType": "poi",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "saturation": -100
-              },
-              {
-                  "lightness": "50"
-              },
-              {
-                  "visibility": "simplified"
-              }
-          ]
-      },
-      {
-          "featureType": "road",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "saturation": "-100"
-              }
-          ]
-      },
-      {
-          "featureType": "road.highway",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "visibility": "simplified"
-              }
-          ]
-      },
-      {
-          "featureType": "road.arterial",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "lightness": "30"
-              }
-          ]
-      },
-      {
-          "featureType": "road.local",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "lightness": "40"
-              }
-          ]
-      },
-      {
-          "featureType": "transit",
-          "elementType": "all",
-          "stylers": [
-              {
-                  "saturation": -100
-              },
-              {
-                  "visibility": "simplified"
-              }
-          ]
-      },
-      {
-          "featureType": "water",
-          "elementType": "geometry",
-          "stylers": [
-              {
-                  "hue": "#ffff00"
-              },
-              {
-                  "lightness": -25
-              },
-              {
-                  "saturation": -97
-              }
-          ]
-      },
-      {
-          "featureType": "water",
-          "elementType": "labels",
-          "stylers": [
-              {
-                  "lightness": -25
-              },
-              {
-                  "saturation": -100
-              }
-          ]
-      }
-  ];
+    let styles = mapstyles;
     // Initializing the map once the API has finished loading
     this.fetchGoogleAPI().then(google => {
       const grasse = this.props.locations[0].location;
@@ -192,7 +70,8 @@ class Map extends Component {
             icon:customMarkerIcon
           });
 
-          const infoWindow = new google.maps.InfoWindow({position:marker.getPosition()});
+          this.window = new google.maps.InfoWindow({position:marker.getPosition()});
+          const infoWindow = this.window;
           // Shows or hides related window when the marker is clicked. Also creates
           //The content of the window
           marker.addListener('click',() => {
@@ -212,6 +91,9 @@ class Map extends Component {
           this.markers.push(marker);
         });
         this.map.fitBounds(bounds);
+    })
+    .catch(()=>{
+      document.getElementById('map').innerHTML = "There was an error retreiving the map, sorry for the inconvenience";
     });
   }
 

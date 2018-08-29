@@ -12,7 +12,7 @@ const Sidebar = ((props) => {
         <input type="text" placeholder="Filter Locations" onChange={event => props.filterLocations(event.target.value)}/>
         <ul>
          {props.locations.map(location => (
-          <li onClick={() => props.clickLocation(location.location)} className="sidebar-location" key={location.title}>
+          <li role="button" onClick={() => props.clickLocation(location.location)} className="sidebar-location" key={location.title}>
             <a tabIndex={0} aria-label={`Link to access information about ${location.title}`}
                onKeyDown={(event) => {
                  if((event.which === 13)||(event.which === 32)){

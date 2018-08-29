@@ -1,0 +1,10 @@
+[
+  {"title":"Grasse", "location":{"lat":43.6579685, "lng":6.923471}},
+  {"title":"Cannes", "location": {"lat":43.5370022, "lng":6.9746801}},
+  {"title":"Antibes", "location": {"lat":43.5822762, "lng":7.0698281}},
+  {"title":"Juan-les-Pins", "location": {"lat":43.5710752, "lng":7.1070592}},
+  {"title":"Charabot", "location":{"lat":43.6583686, "lng":6.917404}},
+  {"title":"Cathédrale Notre-Dame-du-Puy de Grasse", "location":{"lat":43.6587176, "lng":6.9138394}},
+  {"title":"Robertet", "location":{"lat":43.6486986, "lng":6.9303879}},
+  {"title":"Parfumerie Fragonard", "location":{"lat":43.6462532, "lng":6.9374693}}
+]

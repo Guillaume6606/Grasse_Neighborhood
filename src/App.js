@@ -4,37 +4,26 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import LocationInformation from './LocationInformation';
 import fetchJsonp from 'fetch-jsonp';
+import locations from './locations.json'
 import escapeRegExp from 'escape-string-regexp';
 import './App.css';
 
 class App extends Component {
-  state = {
-    // Hard-coded locations database
-    locations: [
-      {title:'Grasse', location:{lat:43.6579685, lng:6.923471}},
-      {title:'Cannes', location: {lat:43.5370022, lng:6.9746801}},
-      {title:'Antibes', location: {lat:43.5822762, lng:7.0698281}},
-      {title:'Juan-les-Pins', location: {lat:43.5710752, lng:7.1070592}},
-      {title:'Charabot', location:{lat:43.6583686, lng:6.917404}},
-      {title:'Cathédrale Notre-Dame-du-Puy de Grasse', location:{lat:43.6587176, lng:6.9138394}},
-      {title:'Robertet', location:{lat:43.6486986, lng:6.9303879}},
-      {title:'Parfumerie Fragonard', location:{lat:43.6462532, lng:6.9374693}}
-    ],
-    //The list of locations that is modified when searching
-    showingLocations:[
-      {title:'Grasse', location:{lat:43.6579685, lng:6.923471}},
-      {title:'Cannes', location: {lat:43.5370022, lng:6.9746801}},
-      {title:'Antibes', location: {lat:43.5822762, lng:7.0698281}},
-      {title:'Juan-les-Pins', location: {lat:43.5710752, lng:7.1070592}},
-      {title:'Charabot', location:{lat:43.6583686, lng:6.917404}},
-      {title:'Cathédrale Notre-Dame-du-Puy de Grasse', location:{lat:43.6587176, lng:6.9138394}},
-      {title:'Robertet', location:{lat:43.6486986, lng:6.9303879}},
-      {title:'Parfumerie Fragonard', location:{lat:43.6462532, lng:6.9374693}}
-    ],
-    focusedLocation:'',
-    // Contains the focused location data, i.e the extract from the Wikipedia API
-    focusedLocationData:''
-  };
+  constructor(props){
+    super(props);
+    this.state = {
+        // Retreiving hard-coded locations database from json file
+        locations: locations,
+        //The list of locations that will be modified when searching
+        showingLocations:locations,
+        focusedLocation:'',
+        // Contains the focused location data, i.e the extract from the Wikipedia API
+        focusedLocationData:''
+      };
+
+
+  }
+
 
   // The Asynchronous function that retrieves data from the Wikipedia API when
   // called. Takes a location, parses its title and incorporates it in an url query
@@ -57,9 +46,9 @@ class App extends Component {
           focusedLocationData: info
         });
       })
-      .catch(err => {
+      .catch(() => {
           appThis.setState({
-          focusedLocationData: `Failed to retreive data from the Wikipedia API : ${err}`
+          focusedLocationData: 'Failed to retreive data from the Wikipedia API'
         });
       });
   };
@@ -67,7 +56,7 @@ class App extends Component {
 // Function to filter the list and the markers when searching. Changes the array
 // of locations that is passed to the children.
   filterLocations= (query) => {
-    const match = new RegExp(escapeRegExp(query), 'i')
+    const match = new RegExp(escapeRegExp(query), 'i');
     let showingLocations = this.state.locations.filter((location) => (match.test(location.title)));
     this.setState({showingLocations:showingLocations});
   }

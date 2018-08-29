@@ -13,6 +13,8 @@ To get start the app:
 
 * install all project dependencies with `npm install`
 * start the development server with `npm start`
+* To start the service worker, type `npm run serve`
+* You will be able to access the service worker on localhost:5000
 
 ## Listing of the files
 ```bash
