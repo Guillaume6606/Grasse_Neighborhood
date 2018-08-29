@@ -10,7 +10,7 @@ class App extends Component {
     locations: [
       {title:'Grasse', location:{lat:43.6579685, lng:6.923471}},
       {title:'La Bastide Saint Antoine', location: {lat:43.6534572, lng:6.9056107}},
-      {title:'Musée International de la Parfumerie', location: {lat:43.6424, lng:6.9327642}},
+      {title:'Musée International de la Parfumerie', location: {lat:43.6533529, lng:6.9142657}},
       {title:'Molinard Bastide historique Musée', location: {lat:43.6424, lng:6.9327642}},
       {title:'Charabot', location:{lat:43.6583686, lng:6.917404}},
       {title:'Cathédrale Notre-Dame Du Puy De Grasse', location:{lat:43.6587176, lng:6.9138394}},
@@ -20,7 +20,7 @@ class App extends Component {
     showingLocations:[
       {title:'Grasse', location:{lat:43.6579685, lng:6.923471}},
       {title:'La Bastide Saint Antoine', location: {lat:43.6534572, lng:6.9056107}},
-      {title:'Musée International de la Parfumerie', location: {lat:43.6424, lng:6.9327642}},
+      {title:'Musée International de la Parfumerie', location: {lat:43.6533529, lng:6.9142657}},
       {title:'Molinard Bastide historique Musée', location: {lat:43.6424, lng:6.9327642}},
       {title:'Charabot', location:{lat:43.6583686, lng:6.917404}},
       {title:'Cathédrale Notre-Dame Du Puy De Grasse', location:{lat:43.6587176, lng:6.9138394}},
@@ -39,10 +39,11 @@ class App extends Component {
     this.setState({showingLocations:this.state.locations});
   }
 
-  clickLocation= (title, position, location) => {
+  clickLocation= (position) => {
     let showingLocations = this.state.locations.filter((location) => ((location.location.lat === position.lat)&&(location.location.lng === position.lng)));
     this.setState({showingLocations:showingLocations});
     document.getElementById('sidebar').classList.toggle('hide-sidebar');
+    this.refs.map.clickReaction();
   }
 
   render() {

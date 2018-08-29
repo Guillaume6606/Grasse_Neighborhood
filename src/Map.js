@@ -191,13 +191,13 @@ class Map extends Component {
             animation: google.maps.Animation.DROP,
             icon:customMarkerIcon
           });
-          const infoWindow = new google.maps.InfoWindow();
-          this.windows[`'${location.title}'`]=infoWindow;
+          const infoWindow = new google.maps.InfoWindow({position:marker.getPosition()});
           marker.addListener('click',() => {this.toggleWindow(marker,infoWindow);});
           infoWindow.addListener('closeclick',() => {
             marker.setAnimation(null);
             infoWindow.marker = null;
           })
+          this.windows[`'${location.title}'`]=infoWindow;
           bounds.extend(marker.position);
           this.markers.push(marker);
         });
@@ -215,8 +215,10 @@ class Map extends Component {
       marker.setAnimation(google.maps.Animation.BOUNCE);
       infoWindow.setContent(`<h2> ${marker.getTitle()}</h2><button id='back'>Get back</button>`);
       infoWindow.open(this.map,marker);
+      console.log(infoWindow)
       document.getElementById('back').addEventListener('click',()=>{
           this.props.resetLocations();
+          infoWindow.marker.setAnimation(null);
           infoWindow.marker = null;
           infoWindow.close();
         });
@@ -232,16 +234,29 @@ class Map extends Component {
           }
         });
         if (showing) {
-          marker.setMap(this.map);
+          marker.setVisible(true);
         } else {
-          marker.setMap(null);
+          marker.setVisible(false);
         }
         return showing
       });
   }
 
-  clickReaction(location) {
-    this.windows[location.title].open(this.map,);
+  clickReaction = () => {
+    let openMarker;
+    let windowToOpen;
+    this.markers.map(marker => {
+      if(marker.getVisible()){
+        openMarker = marker;
+      }
+    })
+    for(let win in this.windows) {
+      if(this.windows[win].getPosition() === openMarker.getPosition()) {
+        windowToOpen = this.windows[win];
+        console.log(windowToOpen)
+        windowToOpen.open(this.map,openMarker);
+      }
+    }
   }
 
   render() {
