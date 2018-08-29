@@ -215,7 +215,6 @@ class Map extends Component {
       marker.setAnimation(google.maps.Animation.BOUNCE);
       infoWindow.setContent(`<h2> ${marker.getTitle()}</h2><button id='back'>Get back</button>`);
       infoWindow.open(this.map,marker);
-      console.log(infoWindow)
       document.getElementById('back').addEventListener('click',()=>{
           this.props.resetLocations();
           infoWindow.marker.setAnimation(null);
@@ -242,19 +241,19 @@ class Map extends Component {
       });
   }
 
-  clickReaction = () => {
+  clickReaction = (location) => {
     let openMarker;
     let windowToOpen;
     this.markers.map(marker => {
-      if(marker.getVisible()){
+      if(marker.getTitle()===location.title){
         openMarker = marker;
       }
     })
     for(let win in this.windows) {
       if(this.windows[win].getPosition() === openMarker.getPosition()) {
         windowToOpen = this.windows[win];
-        console.log(windowToOpen)
-        windowToOpen.open(this.map,openMarker);
+        console.log(openMarker)
+        this.toggleWindow(openMarker,windowToOpen);
       }
     }
   }

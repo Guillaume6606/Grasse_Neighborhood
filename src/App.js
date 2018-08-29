@@ -43,7 +43,7 @@ class App extends Component {
     let showingLocations = this.state.locations.filter((location) => ((location.location.lat === position.lat)&&(location.location.lng === position.lng)));
     this.setState({showingLocations:showingLocations});
     document.getElementById('sidebar').classList.toggle('hide-sidebar');
-    this.refs.map.clickReaction();
+    this.refs.map.clickReaction(showingLocations[0]);
   }
 
   render() {
