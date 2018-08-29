@@ -192,8 +192,11 @@ class Map extends Component {
             icon:customMarkerIcon
           });
           const infoWindow = new google.maps.InfoWindow({position:marker.getPosition()});
-          marker.addListener('click',() => {this.toggleWindow(marker,infoWindow);});
+          marker.addListener('click',() => {
+            this.toggleWindow(marker,infoWindow);
+            this.props.toggleInfo(location)});
           infoWindow.addListener('closeclick',() => {
+            this.props.hideInfo();
             marker.setAnimation(null);
             infoWindow.marker = null;
           })
@@ -213,10 +216,17 @@ class Map extends Component {
       } else {
       infoWindow.marker = marker;
       marker.setAnimation(google.maps.Animation.BOUNCE);
-      infoWindow.setContent(`<h2> ${marker.getTitle()}</h2><button id='back'>Get back</button>`);
+      infoWindow.setContent(`<h2> ${marker.getTitle()}</h2><button id='back'>Get back</button><button id='info'>
+          Show/Hide More About Location
+      </button>`);
       infoWindow.open(this.map,marker);
+
+      document.getElementById('info').addEventListener('click',()=>{
+          document.getElementById("location-information").classList.toggle('slide-in');
+        });
       document.getElementById('back').addEventListener('click',()=>{
           this.props.resetLocations();
+          this.props.hideInfo();
           infoWindow.marker.setAnimation(null);
           infoWindow.marker = null;
           infoWindow.close();
@@ -248,11 +258,11 @@ class Map extends Component {
       if(marker.getTitle()===location.title){
         openMarker = marker;
       }
+      return true;
     })
     for(let win in this.windows) {
       if(this.windows[win].getPosition() === openMarker.getPosition()) {
         windowToOpen = this.windows[win];
-        console.log(openMarker)
         this.toggleWindow(openMarker,windowToOpen);
       }
     }
