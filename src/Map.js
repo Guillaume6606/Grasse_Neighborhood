@@ -216,7 +216,7 @@ class Map extends Component {
       } else {
       infoWindow.marker = marker;
       marker.setAnimation(google.maps.Animation.BOUNCE);
-      infoWindow.setContent(`<h2> ${marker.getTitle()}</h2><button id='back'>Get back</button><button id='info'>
+      infoWindow.setContent(`<h2> ${marker.getTitle()}</h2><button tabindex=0 id='back'>Get back</button><button tabindex=0 id='info'>
           Show/Hide More About Location
       </button>`);
       infoWindow.open(this.map,marker);
